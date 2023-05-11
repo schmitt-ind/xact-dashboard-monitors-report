@@ -69,7 +69,7 @@ header_list = [
     'ESN', 
     'Last measurement timestamp GMT', 
     'Location name', 
-    'Temperature celcius', 
+    'Temperature celsius', 
     'Zone name', 
     'Fill percent', 
     'Fill liters',
