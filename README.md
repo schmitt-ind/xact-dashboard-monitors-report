@@ -1,4 +1,4 @@
-# dashboard-tanks-report
+# dashboard-monitors-report
 Example Python script for creating reports from API data.
 
 ## API Docs:
