@@ -27,18 +27,18 @@ headers = {
     'client': client,
     'uid': username
 }
-connection.request("GET", "/tanks", payload, headers)
+connection.request("GET", "/monitors?page=1&per_page=100&order_by=last_reading_at&order_direction=desc", payload, headers)
 res = connection.getresponse()
 data = res.read()
-tanks = json.loads(data.decode("utf-8"))
+monitors = json.loads(data.decode("utf-8"))
 
 # iterate through tanks list and compile tank info into a data list
 data_list = []
-for tank in tanks:
-    if tank['tank_monitor']['status'] == 'active': # only report on active status tanks
+for monitor in monitors:
+    if monitor['status'] == 'active': # only report on active status monitors
         # create an object for the status of the alarms
         active_alarms = {'overfill': '', 'refill': '', 'critical': ''}
-        for alarm in tank['alarms']:
+        for alarm in monitor['alarms']:
             if alarm['name'] == 'overfill' and alarm['active']:
                 active_alarms['overfill'] = 'Yes'
             if alarm['name'] == 'refill' and alarm['active']:
@@ -46,18 +46,18 @@ for tank in tanks:
             if alarm['name'] == 'critical' and alarm['active']:
                 active_alarms['critical'] = 'Yes'
         row_list = [
-            tank['tank_monitor']['esn'],
-            tank['last_reading_at'],
-            tank['description'],
-            tank['current_level']['temp'],
-            tank['zone']['name'],
-            tank['current_level']['inventory_ratio'],
-            tank['current_level']['inventory'],
-            tank['current_level']['ullage'],
-            tank['current_level']['battery_voltage'],
-            tank['capacity'],
-            tank['latitude'],
-            tank['longitude'],
+            monitor['esn'],
+            monitor['last_reading_at'],
+            monitor['description'],
+            monitor['current_level']['temp'],
+            monitor['zone']['name'],
+            monitor['current_level']['inventory_ratio'],
+            monitor['current_level']['inventory'],
+            monitor['current_level']['ullage'],
+            monitor['current_level']['battery_voltage'],
+            monitor['capacity'],
+            monitor['latitude'],
+            monitor['longitude'],
             active_alarms['refill'],
             active_alarms['critical'],
             active_alarms['overfill']
