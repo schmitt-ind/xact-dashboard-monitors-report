@@ -18,7 +18,7 @@ data = res.read()
 access_token = res.headers['access-token']
 client = res.headers['client']
 
-# get a list of tanks
+# get a list of monitors
 payload = ''
 headers = {
     'Accept-Lanuguage': 'en',
@@ -27,12 +27,13 @@ headers = {
     'client': client,
     'uid': username
 }
+
 connection.request("GET", "/monitors?page=1&per_page=100&order_by=last_reading_at&order_direction=desc", payload, headers)
 res = connection.getresponse()
 data = res.read()
 monitors = json.loads(data.decode("utf-8"))
 
-# iterate through tanks list and compile tank info into a data list
+# iterate through monitors list and compile monitor info into a data list
 data_list = []
 for monitor in monitors:
     if monitor['status'] == 'active': # only report on active status monitors
@@ -64,7 +65,7 @@ for monitor in monitors:
         ]
         data_list.append(row_list)
 
-# Write tank info to csv file
+# Write monitor info to csv file
 header_list = [
     'ESN', 
     'Last measurement timestamp GMT', 
@@ -82,7 +83,7 @@ header_list = [
     'Critical alarm',
     'Overfill alarm'
     ]
-with open('Tank_report.csv', 'w', newline='') as f: 
+with open('monitor_report.csv', 'w', newline='') as f: 
     write = csv.writer(f)
     write.writerow(header_list)
     write.writerows(data_list)
