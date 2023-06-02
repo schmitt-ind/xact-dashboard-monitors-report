@@ -27,7 +27,8 @@ headers = {
     'client': client,
     'uid': username
 }
-connection.request("GET", "/monitors", payload, headers)
+
+connection.request("GET", "/monitors?page=1&per_page=100&order_by=last_reading_at&order_direction=desc", payload, headers)
 res = connection.getresponse()
 data = res.read()
 monitors = json.loads(data.decode("utf-8"))
