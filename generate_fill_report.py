@@ -46,16 +46,17 @@ for monitor in monitors:
                 active_alarms['refill'] = 'Yes'
             if alarm['name'] == 'critical' and alarm['active']:
                 active_alarms['critical'] = 'Yes'
+        current_level = monitor['current_level']
         row_list = [
             monitor['esn'],
             monitor['last_reading_at'],
             monitor['description'],
-            monitor['current_level']['temp'] if monitor['current_level'] else None,
+            monitor['current_level']['temp'] if current_level else None,
             monitor['zone']['name'],
-            monitor['current_level']['inventory_ratio'] if monitor['current_level'] else None,
-            monitor['current_level']['inventory'] if monitor['current_level'] else None,
-            monitor['current_level']['ullage'] if monitor['current_level'] else None,
-            monitor['current_level']['battery_voltage'] if monitor['current_level'] else None,
+            monitor['current_level']['inventory_ratio'] if current_level else None,
+            monitor['current_level']['inventory'] if current_level else None,
+            monitor['current_level']['ullage'] if current_level else None,
+            monitor['current_level']['battery_voltage'] if current_level else None,
             monitor['capacity'],
             monitor['latitude'],
             monitor['longitude'],
