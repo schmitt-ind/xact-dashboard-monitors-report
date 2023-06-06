@@ -46,7 +46,7 @@ for monitor in monitors:
                 active_alarms['refill'] = 'Yes'
             if alarm['name'] == 'critical' and alarm['active']:
                 active_alarms['critical'] = 'Yes'
-        current_level = monitor['current_level']
+        current_level = monitor.get('current_level', None)
         row_list = [
             monitor['esn'],
             monitor['last_reading_at'],
