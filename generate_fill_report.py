@@ -6,7 +6,7 @@ username = "your_username"
 password = "your_password"
 
 # get an access-token and client
-connection = http.client.HTTPSConnection("api.dashboard.xact-data.com")
+connection = http.client.HTTPSConnection("api.xactmonitoring.com")
 payload = json.dumps({"email": username,"password": password})
 headers = {
     'Accept-Language': 'en',
@@ -46,16 +46,17 @@ for monitor in monitors:
                 active_alarms['refill'] = 'Yes'
             if alarm['name'] == 'critical' and alarm['active']:
                 active_alarms['critical'] = 'Yes'
+        current_level = monitor.get('current_level', None)
         row_list = [
             monitor['esn'],
             monitor['last_reading_at'],
             monitor['description'],
-            monitor['current_level']['temp'],
+            monitor['current_level']['temp'] if current_level else None,
             monitor['zone']['name'],
-            monitor['current_level']['inventory_ratio'],
-            monitor['current_level']['inventory'],
-            monitor['current_level']['ullage'],
-            monitor['current_level']['battery_voltage'],
+            monitor['current_level']['inventory_ratio'] if current_level else None,
+            monitor['current_level']['inventory'] if current_level else None,
+            monitor['current_level']['ullage'] if current_level else None,
+            monitor['current_level']['battery_voltage'] if current_level else None,
             monitor['capacity'],
             monitor['latitude'],
             monitor['longitude'],
